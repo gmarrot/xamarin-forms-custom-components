@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CustomComponents.Components"
+    x:Class="CustomComponents.Pages.PressedStateButtonPage"
+    Title="Button with pressed state">
+    <ScrollView>
+        <StackLayout
+            Padding="15,8"
+            Spacing="10">
+            <StackLayout
+                Spacing="5">
+                <Label
+                    TextColor="#7C7C7C"
+                    Text="Button with default pressed state:" />
+                <components:PressedStateButton
+                    HeightRequest="40"
+                    BackgroundColor="#3758BF"
+                    TextColor="White"
+                    Text="Click Me!" />
+            </StackLayout>
+            <StackLayout
+                Spacing="5">
+                <Label
+                    TextColor="#7C7C7C"
+                    Text="Button with defined pressed state:" />
+                <components:PressedStateButton
+                    HeightRequest="40"
+                    BackgroundColor="#3758BF"
+                    PressedBackgroundColor="#3B5ECC"
+                    TextColor="White"
+                    PressedTextColor="#EAEAEA"
+                    Text="Click Me!" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

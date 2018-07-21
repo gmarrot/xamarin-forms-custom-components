@@ -12,7 +12,7 @@ namespace CustomComponents {
             InitializeComponent();
 
             var items = new List<SampleItem> {
-                // Add sample pages here
+                SampleItem.For<PressedStateButtonPage>("Button with pressed state")
             };
 
             MainPage = new NavigationPage(new MainPage(items));
