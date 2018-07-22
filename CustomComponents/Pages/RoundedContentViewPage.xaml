@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CustomComponents.Components"
+    x:Class="CustomComponents.Pages.RoundedContentViewPage"
+    Title="ContentView with rounded border">
+    <ScrollView>
+        <StackLayout
+            Padding="15,8"
+            Spacing="15">
+            <StackLayout
+                Spacing="10">
+                <Label
+                    Style="{StaticResource Subtitle}"
+                    Text="Properties" />
+                <Grid
+                    RowSpacing="5"
+                    ColumnSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="*" />
+                        <ColumnDefinition
+                            Width="200" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Border width" />
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalOptions="FillAndExpand"
+                        Keyboard="Numeric"
+                        Text="{Binding BorderWidth}" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="Corner radius" />
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalOptions="FillAndExpand"
+                        Keyboard="Numeric"
+                        Text="{Binding CornerRadius}" />
+                </Grid>
+            </StackLayout>
+            <components:RoundedContentView
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="40"
+                BackgroundColor="#F0F0F0"
+                BorderWidth="{Binding BorderWidth}"
+                BorderColor="#3758BF"
+                CornerRadius="{Binding CornerRadius}" />
+            <components:RoundedContentView
+                HorizontalOptions="FillAndExpand"
+                BorderWidth="{Binding BorderWidth}"
+                BorderColor="#3758BF"
+                CornerRadius="{Binding CornerRadius}">
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    BackgroundColor="#F0F0F0"
+                    Padding="10"
+                    Spacing="5">
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="Content" />
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="with multiple labels" />
+                </StackLayout>
+            </components:RoundedContentView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

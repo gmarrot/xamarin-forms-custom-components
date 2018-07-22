@@ -12,7 +12,8 @@ namespace CustomComponents {
             InitializeComponent();
 
             var items = new List<SampleItem> {
-                SampleItem.For<PressedStateButtonPage>("Button with pressed state")
+                SampleItem.For<PressedStateButtonPage>("Button with pressed state"),
+                SampleItem.For<RoundedContentViewPage>("ContentView with rounded border")
             };
 
             MainPage = new NavigationPage(new MainPage(items));

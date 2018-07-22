@@ -43,6 +43,10 @@ namespace CustomComponents.Droid.Components {
             }
         }
 
+        protected override void UpdateBackgroundColor() {
+            // Do nothing to override default behavior
+        }
+
         void UpdateBackgroundColors() {
             if (FormsElement != null && Control != null) {
                 Color normalBackgroundColor = (Element.BackgroundColor != Color.Default) ? Element.BackgroundColor : DEFAULT_BACKGROUND_COLOR;

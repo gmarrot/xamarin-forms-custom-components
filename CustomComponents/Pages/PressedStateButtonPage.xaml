@@ -12,7 +12,6 @@
             <StackLayout
                 Spacing="5">
                 <Label
-                    TextColor="#7C7C7C"
                     Text="Button with default pressed state:" />
                 <components:PressedStateButton
                     HeightRequest="40"
