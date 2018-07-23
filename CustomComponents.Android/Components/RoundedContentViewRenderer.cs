@@ -13,7 +13,10 @@ using Xamarin.Forms.Platform.Android;
 namespace CustomComponents.Droid.Components {
     public class RoundedContentViewRenderer : VisualElementRenderer<RoundedContentView> {
 
+        int _width;
+        int _height;
         Path _clipPath;
+
         int _borderWidth;
         float _cornerRadius;
 
@@ -43,25 +46,21 @@ namespace CustomComponents.Droid.Components {
         protected override void OnSizeChanged(int w, int h, int oldw, int oldh) {
             base.OnSizeChanged(w, h, oldw, oldh);
 
-            if (_clipPath != null) {
-                using (var bounds = new RectF(0, 0, w, h)) {
-                    using (Path.Direction direction = Path.Direction.Cw) {
-                        _clipPath.Reset();
-                        _clipPath.AddRoundRect(bounds, _cornerRadius, _cornerRadius, direction);
-                        _clipPath.Close();
-                    }
-                }
-            }
+            _width = w;
+            _height = h;
+            UpdateClipPath();
         }
 
-        public override void Draw(Canvas canvas) {
+        protected override void DispatchDraw(Canvas canvas) {
             if (_clipPath != null) {
-                canvas.Save();
+                int savedCanvas = canvas.Save();
+
                 canvas.ClipPath(_clipPath);
-                base.Draw(canvas);
-                canvas.Restore();
+                base.DispatchDraw(canvas);
+
+                canvas.RestoreToCount(savedCanvas);
             } else {
-                base.Draw(canvas);
+                base.DispatchDraw(canvas);
             }
         }
 
@@ -93,6 +92,21 @@ namespace CustomComponents.Droid.Components {
                     Background = drawable;
                 } else {
                     SetBackgroundDrawable(drawable);
+                }
+
+                UpdateClipPath();
+            }
+        }
+
+        void UpdateClipPath() {
+            if (_clipPath != null && _width > 0 && _height > 0) {
+                using (var bounds = new RectF(PaddingLeft, PaddingTop, _width - PaddingRight, _height - PaddingBottom)) {
+                    bounds.Inset(_borderWidth, _borderWidth);
+                    using (Path.Direction direction = Path.Direction.Cw) {
+                        _clipPath.Reset();
+                        _clipPath.AddRoundRect(bounds, _cornerRadius, _cornerRadius, direction);
+                        _clipPath.Close();
+                    }
                 }
             }
         }
