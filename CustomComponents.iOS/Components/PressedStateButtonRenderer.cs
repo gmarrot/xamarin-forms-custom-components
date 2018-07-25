@@ -1,13 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using CustomComponents.Components;
-using CustomComponents.iOS.CustomComponents;
+using CustomComponents.iOS.Components;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(PressedStateButton), typeof(PressedStateButtonRenderer))]
-namespace CustomComponents.iOS.CustomComponents {
+namespace CustomComponents.iOS.Components {
     public class PressedStateButtonRenderer : ButtonRenderer {
 
         static readonly Color DEFAULT_BACKGROUND_COLOR = Color.White;

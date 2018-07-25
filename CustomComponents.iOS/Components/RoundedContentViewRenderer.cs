@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using CustomComponents.Components;
-using CustomComponents.iOS.CustomComponents;
+using CustomComponents.iOS.Components;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(RoundedContentView), typeof(RoundedContentViewRenderer))]
-namespace CustomComponents.iOS.CustomComponents {
+namespace CustomComponents.iOS.Components {
     public class RoundedContentViewRenderer : VisualElementRenderer<RoundedContentView> {
 
         protected override void OnElementChanged(ElementChangedEventArgs<RoundedContentView> e) {

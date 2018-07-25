@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components:CarouselPageWithFooter
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CustomComponents.Components"
+    x:Class="CustomComponents.Pages.CarouselPageWithFooterPage"
+    Title="CarouselPage with footer">
+    <components:CarouselPageWithFooter.Resources>
+        <ResourceDictionary>
+            <Style
+                x:Key="FooterButton"
+                TargetType="components:PressedStateButton">
+                <Setter
+                    Property="BackgroundColor"
+                    Value="#3758BF" />
+                <Setter
+                    Property="PressedBackgroundColor"
+                    Value="#3B5ECC" />
+                <Setter
+                    Property="TextColor"
+                    Value="White" />
+                <Setter
+                    Property="PressedTextColor"
+                    Value="#EAEAEA" />
+            </Style>
+        </ResourceDictionary>
+    </components:CarouselPageWithFooter.Resources>
+    <components:CarouselPageWithFooter.ItemTemplate>
+        <DataTemplate>
+            <ContentPage
+                BackgroundColor="#F0F0F0">
+                <StackLayout
+                    VerticalOptions="FillAndExpand"
+                    Padding="15">
+                    <Label
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="Header" />
+                    <ContentView
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand">
+                        <Label
+                            Text="{Binding .}" />
+                    </ContentView>
+                    <Label
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="Footer" />
+                </StackLayout>
+            </ContentPage>
+        </DataTemplate>
+    </components:CarouselPageWithFooter.ItemTemplate>
+    <components:CarouselPageWithFooter.FooterView>
+        <Grid
+            Padding="15, 5"
+            ColumnSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="*" />
+            </Grid.ColumnDefinitions>
+            <components:PressedStateButton
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource FooterButton}"
+                Text="Button 1" />
+            <components:PressedStateButton
+                Grid.Row="0"
+                Grid.Column="1"
+                Style="{StaticResource FooterButton}"
+                Text="Button 2" />
+            <components:PressedStateButton
+                Grid.Row="0"
+                Grid.Column="2"
+                Style="{StaticResource FooterButton}"
+                Text="Button 3" />
+        </Grid>
+    </components:CarouselPageWithFooter.FooterView>
+</components:CarouselPageWithFooter>
