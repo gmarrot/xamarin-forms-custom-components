@@ -13,6 +13,8 @@ namespace CustomComponents.iOS.Components {
         static readonly Color DEFAULT_BACKGROUND_COLOR = Color.White;
         const double DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY = 0.8;
 
+        static readonly UIColor DEFAULT_TEXT_COLOR = UIColor.Black;
+
         UIColor _normalBackgroundColor;
         UIColor _pressedBackgroundColor;
 
@@ -97,8 +99,14 @@ namespace CustomComponents.iOS.Components {
 
         void UpdatePressedTextColor() {
             if (FormsElement != null && Control != null) {
-                Color pressedTextColor = (FormsElement.PressedTextColor != Color.Default) ? FormsElement.PressedTextColor : Element.TextColor;
-                Control.SetTitleColor(pressedTextColor.ToUIColor(), UIControlState.Highlighted);
+                UIColor pressedTextColor;
+                if (FormsElement.PressedTextColor != Color.Default) {
+                    pressedTextColor = FormsElement.PressedTextColor.ToUIColor();
+                } else {
+                    pressedTextColor = Element.TextColor.ToUIColor(DEFAULT_TEXT_COLOR);
+                }
+
+                Control.SetTitleColor(pressedTextColor, UIControlState.Highlighted);
             }
         }
 

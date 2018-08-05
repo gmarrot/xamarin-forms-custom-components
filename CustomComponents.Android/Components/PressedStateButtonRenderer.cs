@@ -1,21 +1,24 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.OS;
 using CustomComponents.Components;
 using CustomComponents.Droid.Components;
+using CustomComponents.Droid.Extensions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using AColor = Android.Graphics.Color;
 
 [assembly: ExportRenderer(typeof(PressedStateButton), typeof(PressedStateButtonRenderer))]
 namespace CustomComponents.Droid.Components {
     public class PressedStateButtonRenderer : ButtonRenderer {
 
-        static readonly Color DEFAULT_BACKGROUND_COLOR = Color.White;
+        const int DEFAULT_BACKGROUND_COLOR_RES_ID = Android.Resource.Color.White;
         const double DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY = 0.5;
 
-        static readonly Color DEFAULT_TEXT_COLOR = Color.Black;
+        const int DEFAULT_TEXT_COLOR_RES_ID = Android.Resource.Color.Black;
 
         public PressedStateButtonRenderer(Context context) : base(context) {
         }
@@ -49,18 +52,25 @@ namespace CustomComponents.Droid.Components {
 
         void UpdateBackgroundColors() {
             if (FormsElement != null && Control != null) {
-                Color normalBackgroundColor = (Element.BackgroundColor != Color.Default) ? Element.BackgroundColor : DEFAULT_BACKGROUND_COLOR;
+                AColor normalBackgroundColor = Element.BackgroundColor.ToAndroid(DEFAULT_BACKGROUND_COLOR_RES_ID, Context);
 
-                Color pressedBackgroundColor;
+                AColor pressedBackgroundColor;
                 if (FormsElement.PressedBackgroundColor != Color.Default) {
-                    pressedBackgroundColor = FormsElement.PressedBackgroundColor;
+                    pressedBackgroundColor = FormsElement.PressedBackgroundColor.ToAndroid();
                 } else {
-                    pressedBackgroundColor = normalBackgroundColor.MultiplyAlpha(DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY);
+                    int alpha = AColor.GetAlphaComponent(normalBackgroundColor);
+                    alpha = Convert.ToInt32(Math.Round(alpha * DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY));
+
+                    int red = AColor.GetRedComponent(normalBackgroundColor);
+                    int green = AColor.GetGreenComponent(normalBackgroundColor);
+                    int blue = AColor.GetBlueComponent(normalBackgroundColor);
+
+                    pressedBackgroundColor = AColor.Argb(alpha, red, green, blue);
                 }
 
                 var drawable = new StateListDrawable();
-                drawable.AddState(new int[] { Android.Resource.Attribute.StatePressed }, new ColorDrawable(pressedBackgroundColor.ToAndroid()));
-                drawable.AddState(new int[] { }, new ColorDrawable(normalBackgroundColor.ToAndroid()));
+                drawable.AddState(new int[] { Android.Resource.Attribute.StatePressed }, new ColorDrawable(pressedBackgroundColor));
+                drawable.AddState(new int[] { }, new ColorDrawable(normalBackgroundColor));
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.JellyBean) {
                     Control.Background = drawable;
                 } else {
@@ -71,15 +81,15 @@ namespace CustomComponents.Droid.Components {
 
         void UpdateTextColors() {
             if (FormsElement != null && Control != null) {
-                Color normalTextColor = (Element.TextColor != Color.Default) ? Element.TextColor : DEFAULT_TEXT_COLOR;
-                Color pressedTextColor = (FormsElement.PressedTextColor != Color.Default) ? FormsElement.PressedTextColor : normalTextColor;
+                AColor normalTextColor = Element.TextColor.ToAndroid(DEFAULT_TEXT_COLOR_RES_ID, Context);
+                AColor pressedTextColor = FormsElement.PressedTextColor.ToAndroid(normalTextColor);
 
                 Control.SetTextColor(new ColorStateList(new int[][] {
                     new int[] { Android.Resource.Attribute.StatePressed },
                     new int[] {}
                 }, new int[] {
-                    pressedTextColor.ToAndroid(),
-                    normalTextColor.ToAndroid()
+                    pressedTextColor,
+                    normalTextColor
                 }));
             }
         }
