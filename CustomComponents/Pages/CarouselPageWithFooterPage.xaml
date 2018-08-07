@@ -71,16 +71,19 @@
                 Grid.Column="0"
                 Style="{StaticResource FooterButton}"
                 Text="Button 1" />
-            <components:PressedStateButton
+            <Label
                 Grid.Row="0"
                 Grid.Column="1"
-                Style="{StaticResource FooterButton}"
-                Text="Button 2" />
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center"
+                Text="A label" />
             <components:PressedStateButton
                 Grid.Row="0"
                 Grid.Column="2"
                 Style="{StaticResource FooterButton}"
-                Text="Button 3" />
+                Text="Button 2" />
         </Grid>
     </components:CarouselPageWithFooter.FooterView>
 </components:CarouselPageWithFooter>

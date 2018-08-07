@@ -20,7 +20,10 @@ namespace CustomComponents.iOS.Extensions {
                 }
             }
 
-            renderer.NativeView.RemoveFromSuperview();
+            if (renderer.NativeView != null) {
+                renderer.NativeView.RemoveFromSuperview();
+            }
+
             renderer.Dispose();
         }
 

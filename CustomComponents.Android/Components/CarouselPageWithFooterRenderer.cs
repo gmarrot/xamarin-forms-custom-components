@@ -27,20 +27,14 @@ namespace CustomComponents.Droid.Components {
         protected override void OnLayout(bool changed, int l, int t, int r, int b) {
             base.OnLayout(changed, l, t, r, b);
 
-            double x = FormsElement.Padding.Left;
-            double y = FormsElement.Padding.Top;
-            double w = Context.FromPixels(ViewGroup.MeasuredWidth) - FormsElement.Padding.HorizontalThickness;
-            double h = Context.FromPixels(ViewGroup.MeasuredHeight) - FormsElement.Padding.VerticalThickness;
-
             if (_footerViewRenderer != null) {
                 VisualElement footerView = _footerViewRenderer.Element;
-                SizeRequest sizeRequest = footerView.Measure(w, double.PositiveInfinity, MeasureFlags.IncludeMargins);
+                double maxWidth = Context.FromPixels(ViewGroup.MeasuredWidth) - FormsElement.Padding.HorizontalThickness;
+                SizeRequest sizeRequest = footerView.Measure(maxWidth, double.PositiveInfinity, MeasureFlags.IncludeMargins);
                 double heightRequest = sizeRequest.Request.Height;
 
-                _footerViewRenderer.Element.Layout(new Rectangle(0, Context.FromPixels(ViewGroup.MeasuredHeight) - heightRequest, w, heightRequest));
-
+                _footerViewRenderer.Element.Layout(new Rectangle(0, Context.FromPixels(ViewGroup.MeasuredHeight) - heightRequest, maxWidth, heightRequest));
                 _footerViewRenderer.UpdateLayout();
-                _footerViewRenderer.Tracker.UpdateLayout();
             }
         }
 
@@ -65,7 +59,7 @@ namespace CustomComponents.Droid.Components {
                 SizeRequest sizeRequest = footerView.Measure(Context.FromPixels(ViewGroup.MeasuredWidth), double.PositiveInfinity, MeasureFlags.IncludeMargins);
                 double heightRequest = sizeRequest.Request.Height;
 
-                _footerViewRenderer = Platform.CreateRendererWithContext(FormsElement.FooterView, Context);
+                _footerViewRenderer = GetOrCreateRenderer(FormsElement.FooterView, Context);
                 AddView(_footerViewRenderer.View, 1);
                 SetBottomPadding(heightRequest);
 
@@ -93,11 +87,30 @@ namespace CustomComponents.Droid.Components {
             FormsElement.Padding = padding;
         }
 
-        void DisposeRenderer(IVisualElementRenderer renderer) {
-            if (renderer != null) {
-                renderer.View.RemoveFromParent();
-                renderer.Dispose();
+        IVisualElementRenderer GetOrCreateRenderer(VisualElement element, Context context) {
+            IVisualElementRenderer renderer = Platform.GetRenderer(element);
+            if (renderer == null) {
+                renderer = Platform.CreateRendererWithContext(element, context);
+                Platform.SetRenderer(element, renderer);
             }
+
+            return renderer;
+        }
+
+        void DisposeRenderer(IVisualElementRenderer renderer) {
+            if (renderer == null) {
+                return;
+            }
+
+            if (renderer.Element != null && Platform.GetRenderer(renderer.Element) == renderer) {
+                Platform.SetRenderer(renderer.Element, null);
+            }
+
+            if (renderer.View != null) {
+                renderer.View.RemoveFromParent();
+            }
+
+            renderer.Dispose();
         }
 
     }

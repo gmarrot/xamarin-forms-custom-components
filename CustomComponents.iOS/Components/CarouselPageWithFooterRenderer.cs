@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreGraphics;
 using CustomComponents.Components;
 using CustomComponents.iOS.Components;
 using CustomComponents.iOS.Extensions;
@@ -30,7 +31,7 @@ namespace CustomComponents.iOS.Components {
                 double heightRequest = sizeRequest.Request.Height;
 
                 _footerViewRenderer.SetElementSize(new Size(View.Frame.Width, heightRequest));
-                _footerViewRenderer.NativeView.Frame = new CoreGraphics.CGRect(0, View.Frame.Height - heightRequest, View.Frame.Width, heightRequest);
+                _footerViewRenderer.NativeView.Frame = new CGRect(0, View.Frame.Height - heightRequest, View.Frame.Width, heightRequest);
             }
         }
 
@@ -55,7 +56,7 @@ namespace CustomComponents.iOS.Components {
                 SizeRequest sizeRequest = footerView.Measure(View.Frame.Width, double.PositiveInfinity, MeasureFlags.IncludeMargins);
                 double heightRequest = sizeRequest.Request.Height;
 
-                _footerViewRenderer = Platform.CreateRenderer(footerView);
+                _footerViewRenderer = GetOrCreateRenderer(footerView);
                 View.InsertSubview(_footerViewRenderer.NativeView, 1);
                 SetBottomPadding(heightRequest);
 
@@ -81,6 +82,16 @@ namespace CustomComponents.iOS.Components {
 
             var padding = new Thickness { Left = left, Top = top, Right = right, Bottom = bottom };
             FormsElement.Padding = padding;
+        }
+
+        IVisualElementRenderer GetOrCreateRenderer(VisualElement element) {
+            IVisualElementRenderer renderer = Platform.GetRenderer(element);
+            if (renderer == null) {
+                renderer = Platform.CreateRenderer(element);
+                Platform.SetRenderer(element, renderer);
+            }
+
+            return renderer;
         }
 
     }
