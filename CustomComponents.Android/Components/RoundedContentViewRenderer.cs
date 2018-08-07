@@ -4,13 +4,13 @@ using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
+using CustomComponents.Android.Components;
 using CustomComponents.Components;
-using CustomComponents.Droid.Components;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(RoundedContentView), typeof(RoundedContentViewRenderer))]
-namespace CustomComponents.Droid.Components {
+namespace CustomComponents.Android.Components {
     public class RoundedContentViewRenderer : VisualElementRenderer<RoundedContentView> {
 
         int _width;

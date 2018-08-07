@@ -2,12 +2,13 @@
 using Android.Content.PM;
 using Android.OS;
 using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
 
-namespace CustomComponents.Droid {
+namespace CustomComponents.Android {
     [Activity(Label = "CustomComponents",
               MainLauncher = true,
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
+    public class MainActivity : FormsAppCompatActivity {
 
         protected override void OnCreate(Bundle savedInstanceState) {
             TabLayoutResource = Resource.Layout.Tabbar;

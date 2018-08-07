@@ -1,12 +1,12 @@
 ﻿using System;
 using Android.Content;
+using CustomComponents.Android.Components;
 using CustomComponents.Components;
-using CustomComponents.Droid.Components;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(CarouselPageWithFooter), typeof(CarouselPageWithFooterRenderer))]
-namespace CustomComponents.Droid.Components {
+namespace CustomComponents.Android.Components {
     public class CarouselPageWithFooterRenderer : CarouselPageRenderer {
 
         IVisualElementRenderer _footerViewRenderer;

@@ -5,20 +5,21 @@ using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.OS;
 using CustomComponents.Components;
-using CustomComponents.Droid.Components;
-using CustomComponents.Droid.Extensions;
+using CustomComponents.Android.Components;
+using CustomComponents.Android.Extensions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AColor = Android.Graphics.Color;
+using AResource = Android.Resource;
 
 [assembly: ExportRenderer(typeof(PressedStateButton), typeof(PressedStateButtonRenderer))]
-namespace CustomComponents.Droid.Components {
+namespace CustomComponents.Android.Components {
     public class PressedStateButtonRenderer : ButtonRenderer {
 
-        const int DEFAULT_BACKGROUND_COLOR_RES_ID = Android.Resource.Color.White;
+        const int DEFAULT_BACKGROUND_COLOR_RES_ID = AResource.Color.White;
         const double DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY = 0.5;
 
-        const int DEFAULT_TEXT_COLOR_RES_ID = Android.Resource.Color.Black;
+        const int DEFAULT_TEXT_COLOR_RES_ID = AResource.Color.Black;
 
         public PressedStateButtonRenderer(Context context) : base(context) {
         }
@@ -69,7 +70,7 @@ namespace CustomComponents.Droid.Components {
                 }
 
                 var drawable = new StateListDrawable();
-                drawable.AddState(new int[] { Android.Resource.Attribute.StatePressed }, new ColorDrawable(pressedBackgroundColor));
+                drawable.AddState(new int[] { AResource.Attribute.StatePressed }, new ColorDrawable(pressedBackgroundColor));
                 drawable.AddState(new int[] { }, new ColorDrawable(normalBackgroundColor));
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.JellyBean) {
                     Control.Background = drawable;
@@ -85,7 +86,7 @@ namespace CustomComponents.Droid.Components {
                 AColor pressedTextColor = FormsElement.PressedTextColor.ToAndroid(normalTextColor);
 
                 Control.SetTextColor(new ColorStateList(new int[][] {
-                    new int[] { Android.Resource.Attribute.StatePressed },
+                    new int[] { AResource.Attribute.StatePressed },
                     new int[] {}
                 }, new int[] {
                     pressedTextColor,
