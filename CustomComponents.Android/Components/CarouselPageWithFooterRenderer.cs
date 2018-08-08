@@ -28,12 +28,14 @@ namespace CustomComponents.Android.Components {
             base.OnLayout(changed, l, t, r, b);
 
             if (_footerViewRenderer != null) {
+                double pageWidth = Context.FromPixels(ViewGroup.MeasuredWidth);
+                double pageHeight = Context.FromPixels(ViewGroup.MeasuredHeight);
+
                 VisualElement footerView = _footerViewRenderer.Element;
-                double maxWidth = Context.FromPixels(ViewGroup.MeasuredWidth) - FormsElement.Padding.HorizontalThickness;
-                SizeRequest sizeRequest = footerView.Measure(maxWidth, double.PositiveInfinity, MeasureFlags.IncludeMargins);
+                SizeRequest sizeRequest = footerView.Measure(pageWidth, double.PositiveInfinity, MeasureFlags.IncludeMargins);
                 double heightRequest = sizeRequest.Request.Height;
 
-                _footerViewRenderer.Element.Layout(new Rectangle(0, Context.FromPixels(ViewGroup.MeasuredHeight) - heightRequest, maxWidth, heightRequest));
+                footerView.Layout(new Rectangle(0, pageHeight - heightRequest, pageWidth, heightRequest));
                 _footerViewRenderer.UpdateLayout();
             }
         }
@@ -54,15 +56,14 @@ namespace CustomComponents.Android.Components {
 
         void UpdateFooterView() {
             DisposeRenderer(_footerViewRenderer);
-            if (FormsElement != null && FormsElement.FooterView != null) {
-                VisualElement footerView = FormsElement.FooterView;
+            VisualElement footerView = FormsElement?.FooterView;
+            if (footerView != null) {
+                _footerViewRenderer = GetOrCreateRenderer(footerView, Context);
+                AddView(_footerViewRenderer.View);
+
                 SizeRequest sizeRequest = footerView.Measure(Context.FromPixels(ViewGroup.MeasuredWidth), double.PositiveInfinity, MeasureFlags.IncludeMargins);
                 double heightRequest = sizeRequest.Request.Height;
-
-                _footerViewRenderer = GetOrCreateRenderer(FormsElement.FooterView, Context);
-                AddView(_footerViewRenderer.View, 1);
                 SetBottomPadding(heightRequest);
-
                 footerView.SizeChanged += HandleOnFooterViewSizeChanged;
             }
         }
@@ -83,8 +84,7 @@ namespace CustomComponents.Android.Components {
             double top = FormsElement.Padding.Top;
             double right = FormsElement.Padding.Right;
 
-            var padding = new Thickness { Left = left, Top = top, Right = right, Bottom = bottom };
-            FormsElement.Padding = padding;
+            FormsElement.Padding = new Thickness(left, top, right, bottom);
         }
 
         IVisualElementRenderer GetOrCreateRenderer(VisualElement element, Context context) {
@@ -106,10 +106,7 @@ namespace CustomComponents.Android.Components {
                 Platform.SetRenderer(renderer.Element, null);
             }
 
-            if (renderer.View != null) {
-                renderer.View.RemoveFromParent();
-            }
-
+            renderer.View?.RemoveFromParent();
             renderer.Dispose();
         }
 

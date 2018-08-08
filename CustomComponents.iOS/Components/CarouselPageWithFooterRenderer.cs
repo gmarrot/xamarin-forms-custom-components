@@ -26,12 +26,15 @@ namespace CustomComponents.iOS.Components {
             base.ViewDidLayoutSubviews();
 
             if (_footerViewRenderer != null) {
+                double pageWidth = View.Frame.Width;
+                double pageHeight = View.Frame.Height;
+
                 VisualElement footerView = _footerViewRenderer.Element;
-                SizeRequest sizeRequest = footerView.Measure(View.Frame.Width, double.PositiveInfinity, MeasureFlags.IncludeMargins);
+                SizeRequest sizeRequest = footerView.Measure(pageWidth, double.PositiveInfinity, MeasureFlags.IncludeMargins);
                 double heightRequest = sizeRequest.Request.Height;
 
                 _footerViewRenderer.SetElementSize(new Size(View.Frame.Width, heightRequest));
-                _footerViewRenderer.NativeView.Frame = new CGRect(0, View.Frame.Height - heightRequest, View.Frame.Width, heightRequest);
+                _footerViewRenderer.NativeView.Frame = new CGRect(0, pageHeight - heightRequest, View.Frame.Width, heightRequest);
             }
         }
 
@@ -51,15 +54,14 @@ namespace CustomComponents.iOS.Components {
 
         void UpdateFooterView() {
             _footerViewRenderer?.DisposeRendererAndChildren();
-            if (FormsElement != null && FormsElement.FooterView != null) {
-                VisualElement footerView = FormsElement.FooterView;
+            VisualElement footerView = FormsElement?.FooterView;
+            if (footerView != null) {
+                _footerViewRenderer = GetOrCreateRenderer(footerView);
+                View.AddSubview(_footerViewRenderer.NativeView);
+
                 SizeRequest sizeRequest = footerView.Measure(View.Frame.Width, double.PositiveInfinity, MeasureFlags.IncludeMargins);
                 double heightRequest = sizeRequest.Request.Height;
-
-                _footerViewRenderer = GetOrCreateRenderer(footerView);
-                View.InsertSubview(_footerViewRenderer.NativeView, 1);
                 SetBottomPadding(heightRequest);
-
                 footerView.SizeChanged += HandleOnFooterViewSizeChanged;
             }
         }
@@ -76,12 +78,11 @@ namespace CustomComponents.iOS.Components {
         #endregion
 
         void SetBottomPadding(double bottom) {
-            var left = FormsElement.Padding.Left;
-            var top = FormsElement.Padding.Top;
-            var right = FormsElement.Padding.Right;
+            double left = FormsElement.Padding.Left;
+            double top = FormsElement.Padding.Top;
+            double right = FormsElement.Padding.Right;
 
-            var padding = new Thickness { Left = left, Top = top, Right = right, Bottom = bottom };
-            FormsElement.Padding = padding;
+            FormsElement.Padding = new Thickness(left, top, right, bottom);
         }
 
         IVisualElementRenderer GetOrCreateRenderer(VisualElement element) {

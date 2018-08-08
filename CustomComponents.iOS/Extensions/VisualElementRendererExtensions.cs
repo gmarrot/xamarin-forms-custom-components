@@ -13,17 +13,16 @@ namespace CustomComponents.iOS.Extensions {
                 Platform.SetRenderer(renderer.Element, null);
             }
 
-            UIView[] subviews = renderer.NativeView.Subviews;
-            for (int i = 0; i < subviews.Length; i++) {
-                if (subviews[i] is IVisualElementRenderer childRenderer) {
-                    childRenderer.DisposeRendererAndChildren();
-                }
-            }
-
             if (renderer.NativeView != null) {
+                UIView[] subviews = renderer.NativeView.Subviews;
+                for (int i = 0; i < subviews.Length; i++) {
+                    if (subviews[i] is IVisualElementRenderer childRenderer) {
+                        childRenderer.DisposeRendererAndChildren();
+                    }
+                }
+
                 renderer.NativeView.RemoveFromSuperview();
             }
-
             renderer.Dispose();
         }
 

@@ -52,6 +52,7 @@
     </components:CarouselPageWithFooter.ItemTemplate>
     <components:CarouselPageWithFooter.FooterView>
         <Grid
+            BackgroundColor="White"
             Padding="15, 5"
             ColumnSpacing="5">
             <Grid.RowDefinitions>
@@ -67,6 +68,7 @@
                     Width="*" />
             </Grid.ColumnDefinitions>
             <components:PressedStateButton
+                x:Name="Button1"
                 Grid.Row="0"
                 Grid.Column="0"
                 Style="{StaticResource FooterButton}"
@@ -80,6 +82,7 @@
                 VerticalTextAlignment="Center"
                 Text="A label" />
             <components:PressedStateButton
+                x:Name="Button2"
                 Grid.Row="0"
                 Grid.Column="2"
                 Style="{StaticResource FooterButton}"
