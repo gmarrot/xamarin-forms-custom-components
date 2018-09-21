@@ -4,9 +4,9 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.OS;
-using CustomComponents.Components;
 using CustomComponents.Android.Components;
 using CustomComponents.Android.Extensions;
+using CustomComponents.Components;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AColor = Android.Graphics.Color;
@@ -30,7 +30,6 @@ namespace CustomComponents.Android.Components {
             base.OnElementChanged(e);
 
             if (e.NewElement != null) {
-                UpdateBackgroundColors();
                 UpdateTextColors();
             }
         }
@@ -38,9 +37,8 @@ namespace CustomComponents.Android.Components {
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e) {
             base.OnElementPropertyChanged(sender, e);
 
-            if (e.PropertyName == VisualElement.BackgroundColorProperty.PropertyName
-                || e.PropertyName == PressedStateButton.PressedBackgroundColorProperty.PropertyName) {
-                UpdateBackgroundColors();
+            if (e.PropertyName == PressedStateButton.PressedBackgroundColorProperty.PropertyName) {
+                UpdateBackgroundColor();
             } else if (e.PropertyName == Button.TextColorProperty.PropertyName
                        || e.PropertyName == PressedStateButton.PressedTextColorProperty.PropertyName) {
                 UpdateTextColors();
@@ -48,10 +46,6 @@ namespace CustomComponents.Android.Components {
         }
 
         protected override void UpdateBackgroundColor() {
-            // Do nothing to override default behavior
-        }
-
-        void UpdateBackgroundColors() {
             if (FormsElement != null && Control != null) {
                 AColor normalBackgroundColor = Element.BackgroundColor.ToAndroid(DEFAULT_BACKGROUND_COLOR_RES_ID, Context);
 
