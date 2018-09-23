@@ -10,21 +10,15 @@ using Xamarin.Forms.Platform.iOS;
 namespace CustomComponents.iOS.Components {
     public class PressedStateButtonRenderer : ButtonRenderer {
 
-        static readonly Color DEFAULT_BACKGROUND_COLOR = Color.White;
-        const double DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY = 0.8;
-
-        static readonly UIColor DEFAULT_TEXT_COLOR = UIColor.Black;
-
         UIColor _normalBackgroundColor;
         UIColor _pressedBackgroundColor;
-
-        PressedStateButton FormsElement => Element as PressedStateButton;
 
         protected override void OnElementChanged(ElementChangedEventArgs<Button> e) {
             base.OnElementChanged(e);
 
             if (e.NewElement != null) {
-                UpdateBackgroundColors();
+                UpdateBackgroundColor();
+                UpdatePressedBackgroundColor();
                 UpdatePressedTextColor();
             }
         }
@@ -32,10 +26,13 @@ namespace CustomComponents.iOS.Components {
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e) {
             base.OnElementPropertyChanged(sender, e);
 
-            if (e.PropertyName == VisualElement.BackgroundColorProperty.PropertyName
-                || e.PropertyName == PressedStateButton.PressedBackgroundColorProperty.PropertyName) {
-                UpdateBackgroundColors();
-            } else if (e.PropertyName == PressedStateButton.PressedTextColorProperty.PropertyName) {
+            if (e.PropertyName == PressedStateButton.InternalBackgroundColorProperty.PropertyName) {
+                UpdateBackgroundColor();
+            } else if (e.PropertyName == PressedStateButton.InternalPressedBackgroundColorProperty.PropertyName) {
+                UpdatePressedBackgroundColor();
+            } else if (e.PropertyName == PressedStateButton.InternalTextColorProperty.PropertyName) {
+                UpdateTextColor();
+            } else if (e.PropertyName == PressedStateButton.InternalPressedTextColorProperty.PropertyName) {
                 UpdatePressedTextColor();
             }
         }
@@ -64,19 +61,15 @@ namespace CustomComponents.iOS.Components {
 
         #region Background colors
 
-        void UpdateBackgroundColors() {
-            if (FormsElement != null) {
-                Color normalBackgroundColor = (Element.BackgroundColor != Color.Default) ? Element.BackgroundColor : DEFAULT_BACKGROUND_COLOR;
+        void UpdateBackgroundColor() {
+            if (Element is PressedStateButton button) {
+                _normalBackgroundColor = button.InternalBackgroundColor.ToUIColor();
+            }
+        }
 
-                Color pressedBackgroundColor;
-                if (FormsElement.PressedBackgroundColor != Color.Default) {
-                    pressedBackgroundColor = FormsElement.PressedBackgroundColor;
-                } else {
-                    pressedBackgroundColor = normalBackgroundColor.MultiplyAlpha(DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY);
-                }
-
-                _normalBackgroundColor = normalBackgroundColor.ToUIColor();
-                _pressedBackgroundColor = pressedBackgroundColor.ToUIColor();
+        void UpdatePressedBackgroundColor() {
+            if (Element is PressedStateButton button) {
+                _pressedBackgroundColor = button.InternalPressedBackgroundColor.ToUIColor();
             }
         }
 
@@ -97,16 +90,17 @@ namespace CustomComponents.iOS.Components {
 
         #region Text colors
 
-        void UpdatePressedTextColor() {
-            if (FormsElement != null && Control != null) {
-                UIColor pressedTextColor;
-                if (FormsElement.PressedTextColor != Color.Default) {
-                    pressedTextColor = FormsElement.PressedTextColor.ToUIColor();
-                } else {
-                    pressedTextColor = Element.TextColor.ToUIColor(DEFAULT_TEXT_COLOR);
-                }
+        void UpdateTextColor() {
+            if (Element is PressedStateButton button && Control != null) {
+                Control.SetTitleColor(button.InternalTextColor.ToUIColor(),
+                                      UIControlState.Normal);
+            }
+        }
 
-                Control.SetTitleColor(pressedTextColor, UIControlState.Highlighted);
+        void UpdatePressedTextColor() {
+            if (Element is PressedStateButton button && Control != null) {
+                Control.SetTitleColor(button.InternalPressedTextColor.ToUIColor(),
+                                      UIControlState.Highlighted);
             }
         }
 
