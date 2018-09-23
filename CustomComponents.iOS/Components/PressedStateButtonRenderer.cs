@@ -19,6 +19,7 @@ namespace CustomComponents.iOS.Components {
             if (e.NewElement != null) {
                 UpdateBackgroundColor();
                 UpdatePressedBackgroundColor();
+                UpdateTextColor();
                 UpdatePressedTextColor();
             }
         }
@@ -64,12 +65,18 @@ namespace CustomComponents.iOS.Components {
         void UpdateBackgroundColor() {
             if (Element is PressedStateButton button) {
                 _normalBackgroundColor = button.InternalBackgroundColor.ToUIColor();
+                if (Control != null) {
+                    SetBackgroundColorForState(Control.State);
+                }
             }
         }
 
         void UpdatePressedBackgroundColor() {
             if (Element is PressedStateButton button) {
                 _pressedBackgroundColor = button.InternalPressedBackgroundColor.ToUIColor();
+                if (Control != null) {
+                    SetBackgroundColorForState(Control.State);
+                }
             }
         }
 
