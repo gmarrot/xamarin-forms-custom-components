@@ -39,7 +39,7 @@ namespace CustomComponents.iOS.Components {
         }
 
         protected override UIButton CreateNativeControl() {
-            // Use custom type to allow the ovverride of default highlight text color
+            // Use custom type to allow the override of default highlight text color
             UIButton button = new UIButton(UIButtonType.Custom);
             button.TouchDown += HandleOnButtonTouchedDown;
             button.TouchUpInside += HandleOnButtonTouchedUpInside;
