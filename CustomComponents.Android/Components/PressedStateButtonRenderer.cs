@@ -29,19 +29,19 @@ namespace CustomComponents.Android.Components {
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e) {
             base.OnElementPropertyChanged(sender, e);
 
-            if (e.PropertyName == PressedStateButton.InternalBackgroundColorProperty.PropertyName
-                || e.PropertyName == PressedStateButton.InternalPressedBackgroundColorProperty.PropertyName) {
+            if (e.PropertyName == PressedStateButton.ActualBackgroundColorProperty.PropertyName
+                || e.PropertyName == PressedStateButton.ActualPressedBackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColors();
-            } else if (e.PropertyName == PressedStateButton.InternalTextColorProperty.PropertyName
-                       || e.PropertyName == PressedStateButton.InternalPressedTextColorProperty.PropertyName) {
+            } else if (e.PropertyName == PressedStateButton.ActualTextColorProperty.PropertyName
+                       || e.PropertyName == PressedStateButton.ActualPressedTextColorProperty.PropertyName) {
                 UpdateTextColors();
             }
         }
 
         void UpdateBackgroundColors() {
             if (Element is PressedStateButton button && Control != null) {
-                AColor normalBackgroundColor = button.InternalBackgroundColor.ToAndroid();
-                AColor pressedBackgroundColor = button.InternalPressedBackgroundColor.ToAndroid();
+                AColor normalBackgroundColor = button.ActualBackgroundColor.ToAndroid();
+                AColor pressedBackgroundColor = button.ActualPressedBackgroundColor.ToAndroid();
 
                 var drawable = new StateListDrawable();
                 drawable.AddState(new int[] { AResource.Attribute.StatePressed }, new ColorDrawable(pressedBackgroundColor));
@@ -56,8 +56,8 @@ namespace CustomComponents.Android.Components {
 
         void UpdateTextColors() {
             if (Element is PressedStateButton button && Control != null) {
-                AColor normalTextColor = button.InternalTextColor.ToAndroid();
-                AColor pressedTextColor = button.InternalPressedTextColor.ToAndroid();
+                AColor normalTextColor = button.ActualTextColor.ToAndroid();
+                AColor pressedTextColor = button.ActualPressedTextColor.ToAndroid();
 
                 Control.SetTextColor(new ColorStateList(new int[][] {
                     new int[] { AResource.Attribute.StatePressed },

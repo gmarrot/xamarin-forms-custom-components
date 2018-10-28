@@ -14,15 +14,15 @@ namespace CustomComponents.Components {
         public static readonly BindableProperty PressedBackgroundColorProperty =
             BindableProperty.Create(nameof(PressedBackgroundColor), typeof(Color), typeof(PressedStateButton), Color.Default);
 
-        static readonly BindablePropertyKey InternalBackgroundColorPropertyKey =
-            BindableProperty.CreateReadOnly(nameof(InternalBackgroundColor), typeof(Color), typeof(PressedStateButton), Color.Default);
+        static readonly BindablePropertyKey ActualBackgroundColorPropertyKey =
+            BindableProperty.CreateReadOnly(nameof(ActualBackgroundColor), typeof(Color), typeof(PressedStateButton), Color.Default);
 
-        public static readonly BindableProperty InternalBackgroundColorProperty = InternalBackgroundColorPropertyKey.BindableProperty;
+        public static readonly BindableProperty ActualBackgroundColorProperty = ActualBackgroundColorPropertyKey.BindableProperty;
 
-        static readonly BindablePropertyKey InternalPressedBackgroundColorPropertyKey =
-            BindableProperty.CreateReadOnly(nameof(InternalPressedBackgroundColor), typeof(Color), typeof(PressedStateButton), Color.Default);
+        static readonly BindablePropertyKey ActualPressedBackgroundColorPropertyKey =
+            BindableProperty.CreateReadOnly(nameof(ActualPressedBackgroundColor), typeof(Color), typeof(PressedStateButton), Color.Default);
 
-        public static readonly BindableProperty InternalPressedBackgroundColorProperty = InternalPressedBackgroundColorPropertyKey.BindableProperty;
+        public static readonly BindableProperty ActualPressedBackgroundColorProperty = ActualPressedBackgroundColorPropertyKey.BindableProperty;
 
         #endregion
 
@@ -31,21 +31,21 @@ namespace CustomComponents.Components {
         public static readonly BindableProperty PressedTextColorProperty =
             BindableProperty.Create(nameof(PressedTextColor), typeof(Color), typeof(PressedStateButton), Color.Default);
 
-        static readonly BindablePropertyKey InternalTextColorPropertyKey =
-            BindableProperty.CreateReadOnly(nameof(InternalTextColor), typeof(Color), typeof(PressedStateButton), Color.Default);
+        static readonly BindablePropertyKey ActualTextColorPropertyKey =
+            BindableProperty.CreateReadOnly(nameof(ActualTextColor), typeof(Color), typeof(PressedStateButton), Color.Default);
 
-        public static readonly BindableProperty InternalTextColorProperty = InternalTextColorPropertyKey.BindableProperty;
+        public static readonly BindableProperty ActualTextColorProperty = ActualTextColorPropertyKey.BindableProperty;
 
-        static readonly BindablePropertyKey InternalPressedTextColorPropertyKey =
-            BindableProperty.CreateReadOnly(nameof(InternalPressedTextColor), typeof(Color), typeof(PressedStateButton), Color.Default);
+        static readonly BindablePropertyKey ActualPressedTextColorPropertyKey =
+            BindableProperty.CreateReadOnly(nameof(ActualPressedTextColor), typeof(Color), typeof(PressedStateButton), Color.Default);
 
-        public static readonly BindableProperty InternalPressedTextColorProperty = InternalPressedTextColorPropertyKey.BindableProperty;
+        public static readonly BindableProperty ActualPressedTextColorProperty = ActualPressedTextColorPropertyKey.BindableProperty;
 
         #endregion
 
         public PressedStateButton() {
-            UpdateInternalBackgroundColors();
-            UpdateInternalTextColors();
+            UpdateActualBackgroundColors();
+            UpdateActualTextColors();
         }
 
         #region Background properties
@@ -55,14 +55,14 @@ namespace CustomComponents.Components {
             set => SetValue(PressedBackgroundColorProperty, value);
         }
 
-        public Color InternalBackgroundColor {
-            get => (Color)GetValue(InternalBackgroundColorProperty);
-            private set => SetValue(InternalBackgroundColorPropertyKey, value);
+        public Color ActualBackgroundColor {
+            get => (Color)GetValue(ActualBackgroundColorProperty);
+            private set => SetValue(ActualBackgroundColorPropertyKey, value);
         }
 
-        public Color InternalPressedBackgroundColor {
-            get => (Color)GetValue(InternalPressedBackgroundColorProperty);
-            private set => SetValue(InternalPressedBackgroundColorPropertyKey, value);
+        public Color ActualPressedBackgroundColor {
+            get => (Color)GetValue(ActualPressedBackgroundColorProperty);
+            private set => SetValue(ActualPressedBackgroundColorPropertyKey, value);
         }
 
         #endregion
@@ -74,14 +74,14 @@ namespace CustomComponents.Components {
             set => SetValue(PressedTextColorProperty, value);
         }
 
-        public Color InternalTextColor {
-            get => (Color)GetValue(InternalTextColorProperty);
-            private set => SetValue(InternalTextColorPropertyKey, value);
+        public Color ActualTextColor {
+            get => (Color)GetValue(ActualTextColorProperty);
+            private set => SetValue(ActualTextColorPropertyKey, value);
         }
 
-        public Color InternalPressedTextColor {
-            get => (Color)GetValue(InternalPressedTextColorProperty);
-            private set => SetValue(InternalPressedTextColorPropertyKey, value);
+        public Color ActualPressedTextColor {
+            get => (Color)GetValue(ActualPressedTextColorProperty);
+            private set => SetValue(ActualPressedTextColorPropertyKey, value);
         }
 
         #endregion
@@ -91,23 +91,23 @@ namespace CustomComponents.Components {
 
             if (propertyName == BackgroundColorProperty.PropertyName
                 || propertyName == PressedBackgroundColorProperty.PropertyName) {
-                UpdateInternalBackgroundColors();
+                UpdateActualBackgroundColors();
             } else if (propertyName == TextColorProperty.PropertyName
                        || propertyName == PressedTextColorProperty.PropertyName) {
-                UpdateInternalTextColors();
+                UpdateActualTextColors();
             }
         }
 
-        void UpdateInternalBackgroundColors() {
-            InternalBackgroundColor = (BackgroundColor != Color.Default) ? BackgroundColor : DEFAULT_BACKGROUND_COLOR;
-            InternalPressedBackgroundColor = (PressedBackgroundColor != Color.Default)
+        void UpdateActualBackgroundColors() {
+            ActualBackgroundColor = (BackgroundColor != Color.Default) ? BackgroundColor : DEFAULT_BACKGROUND_COLOR;
+            ActualPressedBackgroundColor = (PressedBackgroundColor != Color.Default)
                 ? PressedBackgroundColor
-                : InternalBackgroundColor.MultiplyAlpha(DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY);
+                : ActualBackgroundColor.MultiplyAlpha(DEFAULT_PRESSED_BACKGROUND_COLOR_OPACITY);
         }
 
-        void UpdateInternalTextColors() {
-            InternalTextColor = (TextColor != Color.Default) ? TextColor : DEFAULT_TEXT_COLOR;
-            InternalPressedTextColor = (PressedTextColor != Color.Default) ? PressedTextColor : InternalTextColor;
+        void UpdateActualTextColors() {
+            ActualTextColor = (TextColor != Color.Default) ? TextColor : DEFAULT_TEXT_COLOR;
+            ActualPressedTextColor = (PressedTextColor != Color.Default) ? PressedTextColor : ActualTextColor;
         }
 
     }
